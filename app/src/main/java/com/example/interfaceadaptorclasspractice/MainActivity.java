@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements OnMenuItemClickListener {
+public class MainActivity extends AppCompatActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,15 +15,18 @@ public class MainActivity extends AppCompatActivity implements OnMenuItemClickLi
         setContentView(R.layout.activity_main);
 
         String[] menuItems = {"Home", "About Us", "Settings", "Orders", "Category"};
-        MenuAdapter adapter = new MenuAdapter(menuItems, this);
+        MenuAdapter adapter = new MenuAdapter(menuItems, new OnMenuItemClickListener() {
+            @Override
+            public void onMenuItemClick(int position, String menuItem) {
+                Toast.makeText(MainActivity.this,position+menuItem,Toast.LENGTH_LONG).show();
+
+
+
+            }
+        });
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
 
-    @Override
-    public void onMenuItemClick(int position, String menuItem) {
-        Toast.makeText(this, "Clicked item at position " + position + ": " + menuItem,
-                Toast.LENGTH_SHORT).show();
-    }
 }
